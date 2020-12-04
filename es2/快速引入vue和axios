@@ -1,0 +1,11 @@
+
+
+1. 桌面建一个文件夹， cd到文件夹下面： npm init; 输入相关信息
+
+2. cnpm install vue 安装vue
+
+3. cnpm install axios 安装axios
+
+4. cnpm install jquery 安装jquery
+
+在node_modules dist下找到相关的js文件返给static下面

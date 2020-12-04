@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>模仿京东搜索</title>
+</head>
+<body>
+
+<script th:src="@{/js/vue.min.js}"></script>
+<script th:src="@{/js/axios.min.js}"></script>
+<script th:src="@{/js/jquery.min.js}"></script>
+
+
+<div id="app">
+
+    <p>请输入查询的关键字</p>
+    <input v-model="keywords" placeholder="输入关键字">
+    <input v-model="from" placeholder="起始页">
+    <input v-model="size" placeholder="数量">
+    <p @click.prevent="search()">开始查找</p>
+
+
+    <!--
+        数据
+    -->
+    <div v-for="item in result">
+        <img :src="item.imgUrl" style="width: 100px; height: 100px;">
+        <!--<div style="color: cadetblue">{{item.name}}</div>-->
+        <div v-html="item.name"></div>
+        <div style="color: red;">{{item.price}}</div>
+    </div>
+
+</div>
+
+<script>
+
+    new Vue({
+        el: '#app',
+        data: {
+            keywords: '',
+            from: 1,
+            size: 100,
+            result: []
+        },
+        methods:{
+
+            search(){
+
+                var keywords = this.$data.keywords;
+                var from = this.from;
+                var size = this.size;
+
+                console.log(keywords)
+                console.log(from)
+                console.log(size)
+
+                //axios
+                axios.get('http://localhost:9090/highlight?keywords='+keywords+'&from='+from+'&size='+size)
+                    .then(response => {
+                        console.log(response.data)
+                        this.result = response.data
+                    });
+
+                //ajax
+                // $.ajax({
+                //     type: 'GET',
+                //     url: 'http://localhost:9090/highlight?keywords='+keywords+'&from='+from+'&size='+size,
+                //     data: {},
+                //     dataType: 'json',
+                //     success: function (data) {
+                //
+                //         var arr = [];
+                //         for(var i=0; i<data.length; i++){
+                //             arr.push(data[i])
+                //         }
+                //
+                //         this.result = arr;
+                //
+                //         //console.log(JSON.stringify(this.result))
+                //
+                //     },
+                //     error: function (error) {
+                //         console.log('error :' + JSON.stringify(error))
+                //     }
+                //
+                // })
+
+            }
+        }
+    })
+</script>
+
+</body>
+</html>
